@@ -1,0 +1,28 @@
+<h2>Welcome <%= @user_type %></h2>
+
+<table style="width:80%">
+  <tr>
+    <th>Name</th> 
+  	<th>UID</th>
+  	<th>Description</th>
+  </tr>
+  <tr>
+    <td><%= @user.name %></td>
+    <td><%= @user.uid %></td>
+    <td><%= @user.description %></td>
+   </tr> 
+</table>	
+
+<ul>
+	<% if student_signed_in? %>
+    <li><%= link_to 'Modify Description', edit_student_path(@user) %></li>
+    <li><%= link_to 'View Appointments', student_path(@user) %></li>
+	  <li><%= link_to 'Schedule Appointment', departments_path %><br></li>
+  <% elsif professor_signed_in? %>
+    <li><%= link_to 'Modify Description', edit_professor_path(@user) %></li>
+    <li><%= link_to 'View Appointments', professor_path(@user) %></li>
+  <% elsif employee_signed_in? %>
+    <li><%= link_to 'Modify Description', edit_employee_path(@user) %></li>
+    <li><%= link_to 'View Appointments', employee_path(@user) %></li>
+	<% end %>
+</ul>

@@ -1,0 +1,103 @@
+<% if student_signed_in? %>
+  <h2>Reserving for <%= current_student.name %></h2>
+  <%= week_calendar events: @professor.appointments do |date, appointments| %>
+    <div><strong><%= date %></strong></div>
+    <hr>
+    <% appointments.each do |appointment| %>
+      <% if appointment.status == "open" %>
+        <div><%= link_to appointment.start_time.strftime("%r"), appointment %></div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% elsif professor_signed_in? and current_professor == @professor %>
+
+  <h2>Appointments for <%= @professor.name %></h2>
+
+  <table width=80%>
+    <thead>
+      <tr>
+        <th>Confirmed Appointments</th>
+        <th>With</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @professor.appointments.each do |appointment| %>
+        <% if appointment.status == "confirmed" %>
+          <tr>
+            <td><%= appointment.start_time.strftime("%A, %d %b %Y %l:%M %p") %></td>
+            <td><%= appointment.student.name %></td>
+            <td><%= link_to 'View', appointment %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <table width=80%>
+    <thead>
+      <tr>
+        <th>Pending Appointments</th>
+        <th>Priority</th>
+        <th>With</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @professor.appointments.each do |appointment| %>
+        <% if appointment.status == "low" or appointment.status == "high" %>
+          <tr>
+            <td><%= appointment.start_time.strftime("%A, %d %b %Y %l:%M %p") %></td>
+            <td><%= appointment.status.titleize %>
+            <td><%= appointment.student.name %></td>
+            <td><%= link_to 'View', appointment %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <table width=80%>
+    <thead>
+      <tr>
+        <th>Open Appointments</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @professor.appointments.each do |appointment| %>
+        <% if appointment.status == "open" %>
+          <tr>
+            <td><%= appointment.start_time.strftime("%A, %d %b %Y %l:%M %p") %></td>
+            <td><%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <h3>Schedule</h3>
+
+  <%= week_calendar events: @professor.appointments do |date, appointments| %>
+    <div><strong><%= date %></strong></div>
+    <hr>
+    <% appointments.each do |appointment| %>
+      <div>
+        <% if appointment.status == "open" %>
+          <%= appointment.start_time.strftime("%r") %>
+        <% else %>
+          <s><%= appointment.start_time.strftime("%r") %></s>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <p><i>The crossed out times have already been used.</i></p>
+
+  <br>
+
+  <%= link_to "Add Appointment", new_appointment_path %>
+
+<%end %>

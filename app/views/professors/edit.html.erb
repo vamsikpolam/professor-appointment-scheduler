@@ -1,0 +1,10 @@
+<% if professor_signed_in? and current_professor == @professor %>
+  <%= render 'form' %>
+<% else %>
+  <h2>Permission Denied</h2>
+  <p>You cannot edit another Professor's description.</p>
+<% end %>
+
+<hr>
+
+<%= link_to 'Home', home_path %>

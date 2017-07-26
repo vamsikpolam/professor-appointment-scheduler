@@ -1,0 +1,29 @@
+<h2>Appointment</h2>
+
+<% if @appointment.professor %>
+  <h3>TO: <%= @appointment.professor.name %></h3>
+<% elsif @appointment.employee %>
+  <h3>TO: <%= @appointment.employee.name %></h3>
+<% end %>
+
+<h3>AT: <%= @appointment.start_time.strftime("%A, %d %b %Y %l:%M %p") %></h3>
+
+<% if @appointment.status == "confirmed" %>
+  <h3>WITH: <%= @appointment.student.name %></h3>
+  <h3>Reason:</h3>
+  <p><%= @appointment.reason %></p>
+  <%= link_to "Cancel", appointment_path(@appointment, appointment: {status: "open", reason: ""}), method: :put %>
+<% elsif @appointment.status == "open" and not (professor_signed_in? or employee_signed_in?) %>
+  <h3>Request</h3>
+  <%= render 'form' %>
+<% elsif @appointment.status == "low" or @appointment.status == "high" %>
+  <h3>Request pending</h3>
+  <h3>Reason:</h3>
+  <p><%= @appointment.reason %></p>
+  <% if student_signed_in? %>
+    <%= link_to "Cancel", appointment_path(@appointment, appointment: {status: "open", reason: ""}), method: :put %>
+  <% else %>
+    <%= link_to "Accept", appointment_path(@appointment, appointment: {status: "confirmed"}), method: :put %>
+    <%= link_to "Decline", appointment_path(@appointment, appointment: {status: "open", reason: ""}), method: :put %>
+  <% end %>
+<% end %>

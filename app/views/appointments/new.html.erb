@@ -1,0 +1,10 @@
+<h2>Creating New Appointment Timeslot</h2>
+
+Scheduling for:
+<% if professor_signed_in? %>
+  <%= current_professor.name %>
+<% elsif employee_signed_in? %>
+  <%= current_employee.name %>
+<% end %>
+
+<%= render 'form' %>

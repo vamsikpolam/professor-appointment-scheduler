@@ -1,0 +1,37 @@
+<% if student_signed_in? and current_student == @student %>
+  <h2>Appointments for <%= @student.name %></h2>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Appointment</th>
+      <th>Status</th>
+      <th>With</th>
+      <th colspan="1"></th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    <% @student.appointments.each do |appointment| %>
+      <tr>
+        <td><%= appointment.start_time.strftime("%A, %d %b %Y %l:%M %p") %></td>
+        <% if appointment.status == "confirmed" %>
+          <td>Confirmed</td>
+        <% elsif appointment.status == "low" or appointment.status == "high" %>
+          <td>Pending</td>
+        <% end %>
+        <% if appointment.professor %>
+          <td><%= appointment.professor.name %></td>
+        <% elsif appointment.employee %>
+          <td><%= appointment.employee.name %></td>
+      <% end %>
+        <td><%= link_to "View", appointment %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>  
+
+<% else %>
+  <h2>Permission denied.</h2>
+  <p>You cannot view the schedule of another student.</p>
+<% end %>

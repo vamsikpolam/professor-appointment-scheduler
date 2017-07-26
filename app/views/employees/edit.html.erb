@@ -1,0 +1,10 @@
+<% if employee_signed_in? and current_employee == @employee %>
+  <%= render 'form' %>
+<% else %>
+  <h2>Permission Denied</h2>
+  <p>You cannot edit another Employee's description.</p>
+<% end %>
+
+<hr>
+
+<%= link_to 'Home', home_path %>

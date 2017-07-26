@@ -1,0 +1,7 @@
+<% if student_signed_in? and current_student == @student %>
+  <h2>Editing Student Description for <%= @student.name %></h2>
+  <%= render 'form' %>
+<% else %>
+  <h2>Permission Denied</h2>
+  <p>You cannot edit another Student's description.</p>
+<% end %>

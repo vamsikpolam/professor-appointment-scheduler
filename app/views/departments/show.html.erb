@@ -1,0 +1,27 @@
+<h2><%= @department.name %> Department</h2>
+
+<table width=50%>
+  <thead>
+    <tr>
+      <th>Professors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @department.professors.each do |professor| %>
+      <tr><td><%= link_to professor.name, professor %></td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table width=50%>
+  <thead>
+    <tr>
+      <th>Employees</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @department.employees.each do |employee| %>
+      <tr><td><%= link_to employee.name, employee %></td></tr>
+    <% end %>
+  </tbody>
+</table>

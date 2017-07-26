@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>University Appointment Manager</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <style type="text/css">
+  html {
+    font-family: arial, sans-serif;
+    font-size: 1.2em;
+  }
+
+  body {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+  }
+  
+  #navigation {
+    position: absolute;
+    left: 0;
+    width: 15em;
+  }
+
+  #content, div.field {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+  }
+
+  table, th, td {
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5
+  }
+
+  th {
+    background-color: #4CAF50;
+    color: white;
+  } 
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2
+  } 
+
+  footer {
+    text-align: justify; 
+  }
+
+  footer:after{
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 0;
+    font-size:0;
+    line-height:0;
+  }
+
+  nav {
+    display: inline-block;
+    vertical-align: baseline;
+  }
+  </style>
+</head>
+<body>
+
+<h1>University Appointment Manager</h1>
+
+<hr>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<div id="content">
+
+<%= yield %>
+
+</div>
+
+<hr>
+
+<footer>
+  <nav><%= link_to "Home", home_path %></nav>
+
+  <nav>
+    <% if student_signed_in? %>
+      <%= link_to "Sign Out", destroy_student_session_path, method: :delete %>
+    <% elsif professor_signed_in? %>
+      <%= link_to "Sign Out", destroy_professor_session_path, method: :delete %>
+    <% elsif employee_signed_in? %>
+      <%= link_to "Sign Out", destroy_employee_session_path, method: :delete %>
+    <% end %>
+  </nav>
+</footer>
+
+</body>
+
+</html>
